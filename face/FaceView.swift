@@ -8,14 +8,24 @@
 
 import UIKit
 
+@IBDesignable
 class FaceView: UIView {
   
-  var scale: CGFloat = 0.90
-  var mouthCurvature: Double = 0.0 //1 full smile, -1 full frown
-  var eyesOpen: Bool = true
+  @IBInspectable
+  var scale: CGFloat = 0.90 { didSet { setNeedsDisplay()} }
+  @IBInspectable
+  var mouthCurvature: Double = 0.0  //1 full smile, -1 full frown
+   { didSet { setNeedsDisplay()} }
+  @IBInspectable
+  var eyesOpen: Bool = true  { didSet { setNeedsDisplay()} }
+  @IBInspectable
   var eyeBrowTilt: Double = 0.0 //-1 full furrow, 1 fully relaxed
+   { didSet { setNeedsDisplay()} }
   
-  var strokeLineWidth: CGFloat = 5.0
+  @IBInspectable
+  var color: UIColor = UIColor.blueColor()  { didSet { setNeedsDisplay()} }
+  @IBInspectable
+  var strokeLineWidth: CGFloat = 5.0  { didSet { setNeedsDisplay()} }
   
   private var skullRadius: CGFloat {
     return min(bounds.size.width, bounds.size.height) / 2 * scale
@@ -129,7 +139,7 @@ class FaceView: UIView {
   
   override func drawRect(rect: CGRect)
   {
-    UIColor.blueColor().set()
+    color.set()
     pathForCircleCenteredAtPoint(skullCenter, withRadius: skullRadius).stroke()
     pathForEye(.Left).stroke()
     pathForEye(.Right).stroke()
