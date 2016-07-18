@@ -50,6 +50,7 @@ class FaceViewController: UIViewController {
       updateUI()
     }
   }
+  
   @IBAction func toggleEyes(sender: UITapGestureRecognizer) {
     if sender.state == .Ended {
       switch expression.eyes {
