@@ -13,7 +13,7 @@ struct FacialExpression
     case Closed
     case Squinting
   }
-  
+   
   enum EyeBrows: Int {
     case Relaxed
     case Normal

@@ -20,13 +20,13 @@ class ViewController: UIViewController {
     // Dispose of any resources that can be recreated.
   }
   
-  var expression = FacialExpression(eyes: .Open, eyeBrows: .Normal, mouth: .Smile){
+  var expression = FacialExpression(eyes: .Closed, eyeBrows: .Relaxed, mouth: .Frown){
     didSet {
       updateUI()
     }
   }
   
-  @IBOutlet weak var faceView: FaceView!
+  @IBOutlet weak var faceView: FaceView! { didSet{ updateUI() } }
   
   private var mouthCurvatures = [
     FacialExpression.Mouth.Frown: -1.0,
@@ -44,18 +44,13 @@ class ViewController: UIViewController {
   
   private func updateUI() {
     switch expression.eyes {
-    case .Open:
-      faceView.eyesOpen = true
-    case .Closed:
-      faceView.eyesOpen = false
+    case .Open: faceView.eyesOpen = true
+    case .Closed: faceView.eyesOpen = false
     default: faceView.eyesOpen = false
     }
     faceView.mouthCurvature = mouthCurvatures[expression.mouth] ?? 0.0
     faceView.eyeBrowTilt = eyeBrowTilts[expression.eyeBrows] ?? 0.0
   }
-  
-  
-  
   
 }
 
