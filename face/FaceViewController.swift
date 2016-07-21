@@ -10,21 +10,16 @@ import UIKit
 
 class FaceViewController: UIViewController {
   
-  override func viewDidLoad() {
-    super.viewDidLoad()
-    // Do any additional setup after loading the view, typically from a nib.
-  }
   
-  override func didReceiveMemoryWarning() {
-    super.didReceiveMemoryWarning()
-    // Dispose of any resources that can be recreated.
-  }
+  // MARK: - Object instace
   
   var expression = FacialExpression(eyes: .Closed, eyeBrows: .Relaxed, mouth: .Frown){
     didSet {
       updateUI()
     }
   }
+  
+  // MARK: - View and Gestures
   
   @IBOutlet weak var faceView: FaceView! {
     didSet{
@@ -64,6 +59,8 @@ class FaceViewController: UIViewController {
     }
   }
   
+  // MARK: - Public Functions
+  
   func increaseHappiness () {
     expression.mouth = expression.mouth.happierMouth()
   }
@@ -71,7 +68,8 @@ class FaceViewController: UIViewController {
   func decreaseHappiness () {
     expression.mouth = expression.mouth.sadderMouth()
   }
-
+  
+  // MARK: - Private Constants
   
   private var mouthCurvatures = [
     FacialExpression.Mouth.Frown: -1.0,
@@ -83,19 +81,25 @@ class FaceViewController: UIViewController {
   
   private let eyeBrowTilts = [
     FacialExpression.EyeBrows.Relaxed: 0.5,
-      .Normal: 0.0,
+    .Normal: 0.0,
     .Furrowed: -0.5
   ]
   
+  // MARK: - Private Functions
+  
   private func updateUI() {
-    switch expression.eyes {
-    case .Open: faceView.eyesOpen = true
-    case .Closed: faceView.eyesOpen = false
-    default: faceView.eyesOpen = false
+    if faceView != nil {
+      switch expression.eyes {
+      case .Open: faceView.eyesOpen = true
+      case .Closed: faceView.eyesOpen = false
+      case .Squinting: faceView.eyesOpen = false
+      }
+      faceView.mouthCurvature = mouthCurvatures[expression.mouth] ?? 0.0
+      faceView.eyeBrowTilt = eyeBrowTilts[expression.eyeBrows] ?? 0.0
     }
-    faceView.mouthCurvature = mouthCurvatures[expression.mouth] ?? 0.0
-    faceView.eyeBrowTilt = eyeBrowTilts[expression.eyeBrows] ?? 0.0
   }
+    
+     let instance = getFaceMVCinstanceCount()
   
 }
 

@@ -11,6 +11,8 @@ import UIKit
 @IBDesignable
 class FaceView: UIView {
   
+  // MARK: - IB variables
+  
   @IBInspectable
   var scale: CGFloat = 0.90 { didSet { setNeedsDisplay()} }
   @IBInspectable
@@ -27,7 +29,7 @@ class FaceView: UIView {
   @IBInspectable
   var strokeLineWidth: CGFloat = 5.0  { didSet { setNeedsDisplay()} }
   
-  
+  // MARK: - Scale Gesture
   
   func changeScale(recognizer: UIPinchGestureRecognizer ){
     switch recognizer.state {
@@ -39,6 +41,8 @@ class FaceView: UIView {
     }
   }
   
+  // MARK: - Private Variables
+  
   
   private var skullRadius: CGFloat {
     return min(bounds.size.width, bounds.size.height) / 2 * scale
@@ -47,8 +51,6 @@ class FaceView: UIView {
   private var skullCenter: CGPoint{
     return CGPoint(x: bounds.midX, y: bounds.midY)
   }
-  
-  
   
   private struct Ratios {
     static let SkullRadiusToEyeOffset: CGFloat = 3
@@ -66,6 +68,8 @@ class FaceView: UIView {
     case Right
   }
   
+  // MARK: - Drawing Functions
+  
   private func pathForCircleCenteredAtPoint(midPoint: CGPoint, withRadius radius: CGFloat) -> UIBezierPath{
     let path = UIBezierPath(
       arcCenter: midPoint,
@@ -78,6 +82,10 @@ class FaceView: UIView {
     
     return path
   }
+  
+    // MARK: - Face Parts
+    
+  // MARK: Eyes
   
   private func pathForEye(eye: Eye) -> UIBezierPath {
     let eyeRadius = skullRadius / Ratios.SkullRadiusToEyeRadius
@@ -105,6 +113,8 @@ class FaceView: UIView {
     return eyeCenter
   }
   
+  // MARK: Brows
+  
   private func pathForBrow(eye: Eye) -> UIBezierPath {
     var tilt = eyeBrowTilt
     switch eye {
@@ -124,7 +134,7 @@ class FaceView: UIView {
     return path
   }
   
-  
+  // MARK: Mouth
   
   private func pathForMouth() -> UIBezierPath
   {
@@ -149,6 +159,8 @@ class FaceView: UIView {
     
     return path
   }
+  
+  // MARK: - drawRect
   
   override func drawRect(rect: CGRect)
   {
